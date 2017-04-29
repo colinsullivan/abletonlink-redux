@@ -35,14 +35,36 @@ describe("reset statestore", function () {
   });
 });
 
-describe("transport", function() {
+describe("link state", function() {
   var store = configure_store();
   var abletonLinkController = new AbletonLinkController(store);
 
-  it("should update after 1 second", function (done) {
+
+  it("bpm should update right away", function (done) {
+    setTimeout(() => {
+      let state = store.getState();
+
+      expect(state.bpm).to.equal(120.0);
+      done();
+
+    }, 100);
+  });
+
+  it("beat should update after 1 second", function (done) {
     setTimeout(() => {
       let state = store.getState();
       expect(state.beat).to.be.above(2.0);
+      expect(state.phase).to.be.above(2.0);
+      done();
+    }, 1100);
+  });
+
+  it("phase should loop around beat", function (done) {
+    setTimeout(() => {
+      let state = store.getState();
+
+      expect(state.beat).to.be.above(4.0);
+      expect(state.phase).to.be.below(1.0);
       done();
     }, 1100);
   });
