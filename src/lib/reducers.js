@@ -16,8 +16,8 @@ export function create_default_state () {
     beat: 0.0,
     phase: 0.0,
     quantum: 0.0,
-    queued_bpm: null,
-    bpm: null
+    queued_bpm: false,
+    bpm: false
   };
 }
 export default function (state = create_default_state(), action) {
@@ -33,7 +33,7 @@ export default function (state = create_default_state(), action) {
 
     case actionTypes.LINK_BPM_CHANGED:
       state.bpm = action.payload.bpm;
-      state.queued_bpm = null;
+      state.queued_bpm = false;
       break;
     
     default:

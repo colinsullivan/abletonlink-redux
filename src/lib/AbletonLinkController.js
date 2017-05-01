@@ -20,13 +20,15 @@ import * as actions from "./actions"
  *  
  **/
 class AbletonLinkController {
-  constructor(store) {
+  constructor(store, stateTreePrefix) {
     this.store = store;
+
+    this.stateTreePrefix = stateTreePrefix;
 
     this.link = new abletonlink();
 
     var lastBpm = null;
-    this.link.startUpdate(60, (beat, phase, bpm) => {
+    this.link.startUpdate(20, (beat, phase, bpm) => {
       if (bpm != lastBpm) {
         this.store.dispatch(actions.linkBPMChanged(bpm));
         lastBpm = bpm;
@@ -44,6 +46,10 @@ class AbletonLinkController {
 
   handleStoreChanged() {
     var state = this.store.getState();
+
+    if (this.stateTreePrefix) {
+      state = state[this.stateTreePrefix];
+    }
 
     if (state.queued_bpm) {
       this.link.bpm = state.queued_bpm;

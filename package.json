@@ -2,9 +2,9 @@
   "name": "abletonlink-redux",
   "version": "0.0.1",
   "description": "Helper actions and reducers to tie Ableton Link to a Redux state store.",
-  "main": "index.js",
+  "main": "src/index.js",
   "scripts": {
-    "test": "mocha --compilers js:babel-register"
+    "test": "mocha --compilers js:babel-register ./src/"
   },
   "repository": {
     "type": "git",
