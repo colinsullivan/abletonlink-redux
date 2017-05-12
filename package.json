@@ -4,8 +4,8 @@
   "description": "Helper actions and reducers to tie Ableton Link to a Redux state store.",
   "main": "lib/index.js",
   "scripts": {
-    "test": "mocha --compilers js:babel-register ./src/",
-    "build": "rm -R lib && babel src --out-dir lib"
+    "test": "mocha --compilers js:babel-register",
+    "build": "rm -Rf lib/* && babel src --out-dir lib"
   },
   "repository": {
     "type": "git",

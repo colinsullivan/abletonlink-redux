@@ -12,14 +12,13 @@
 import chai from "chai"
 import { createStore } from "redux"
 
-import liveLinkRootReducer, { create_default_state } from "./lib/reducers"
-import * as actions from "./lib/actions"
-import AbletonLinkController from "./lib/AbletonLinkController";
+import abletonlinkRedux from "../"
+import AbletonLinkController from "./AbletonLinkController";
 
 const expect = chai.expect;
 
 function configure_store (initialState) {
-  return createStore(liveLinkRootReducer, initialState);
+  return createStore(abletonlinkRedux.reducer, initialState);
 }
 
 describe("reset statestore", function () {
@@ -37,8 +36,9 @@ describe("reset statestore", function () {
 });
 
 describe("link state", function() {
-  var defaultState = create_default_state();
-  defaultState.bpm = 120.0;
+  var defaultState = {
+    bpm: 120.0
+  };
   var store;
   var abletonLinkController;
 
@@ -81,7 +81,7 @@ describe("link state", function() {
   it("should change tempo", function (done) {
     reset();
 
-    store.dispatch(actions.linkTempoShouldChange(120.0));
+    store.dispatch(abletonlinkRedux.actions.linkTempoShouldChange(120.0));
 
     // now beats should advance twice as fast
     setTimeout(() => {

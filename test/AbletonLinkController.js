@@ -9,8 +9,7 @@
  **/
 
 import abletonlink from "abletonlink"
-
-import * as actions from "./actions"
+import abletonlinkRedux from "../"
 
 /**
  *  @class        AbletonLinkController
@@ -30,10 +29,10 @@ class AbletonLinkController {
     var lastBpm = null;
     this.link.startUpdate(20, (beat, phase, bpm) => {
       if (bpm != lastBpm) {
-        this.store.dispatch(actions.linkBPMChanged(bpm));
+        this.store.dispatch(abletonlinkRedux.actions.linkBPMChanged(bpm));
         lastBpm = bpm;
       }
-      this.store.dispatch(actions.linkTransportChanged(beat, phase));
+      this.store.dispatch(abletonlinkRedux.actions.linkTransportChanged(beat, phase));
     });
 
     this.store.subscribe(() => { this.handleStoreChanged(); });
