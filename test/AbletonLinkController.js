@@ -26,21 +26,19 @@ class AbletonLinkController {
 
     this.link = new abletonlink();
 
-    var lastBpm = null;
+    var lastBpm = this.link.bpm;
     this.link.startUpdate(20, (beat, phase, bpm) => {
-      if (bpm != lastBpm) {
-        this.store.dispatch(abletonlinkRedux.actions.linkBPMChanged(bpm));
+      this.store.dispatch(abletonlinkRedux.actions.linkTransportChanged(beat, phase));
+      if (bpm !== lastBpm) {
+        this.store.dispatch(
+          abletonlinkRedux.actions.linkBPMChanged(bpm)
+        );
         lastBpm = bpm;
       }
-      this.store.dispatch(abletonlinkRedux.actions.linkTransportChanged(beat, phase));
     });
 
     this.store.subscribe(() => { this.handleStoreChanged(); });
 
-  }
-
-  handleLinkUpdate() {
-    
   }
 
   handleStoreChanged() {

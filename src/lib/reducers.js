@@ -23,17 +23,23 @@ export function create_default_state () {
 export default function (state = create_default_state(), action) {
   switch (action.type) {
     case actionTypes.LINK_TRANSPORT_CHANGED:
-      state.beat = action.payload.beat;
-      state.phase = action.payload.phase;
+      state = Object.assign({}, state, {
+        'beat': action.payload.beat,
+        'phase': action.payload.phase
+      });
       break;
 
     case actionTypes.LINK_TEMPO_SHOULD_CHANGE:
-      state.queued_bpm = action.payload.bpm;
+      state = Object.assign({}, state, {
+        'queued_bpm': action.payload.bpm
+      });
       break;
 
     case actionTypes.LINK_BPM_CHANGED:
-      state.bpm = action.payload.bpm;
-      state.queued_bpm = false;
+      state = Object.assign({}, state, {
+        'bpm': action.payload.bpm,
+        'queued_bpm': false
+      });
       break;
     
     default:
