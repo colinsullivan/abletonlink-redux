@@ -81,13 +81,13 @@ describe("link state", function() {
   it("should change tempo", function (done) {
     reset();
 
-    store.dispatch(abletonlinkRedux.actions.linkTempoShouldChange(120.0));
+    store.dispatch(abletonlinkRedux.actions.linkTempoShouldChange(240.0));
 
     // now beats should advance twice as fast
     setTimeout(() => {
       let state = store.getState();
 
-      //expect(state.bpm).to.equal(240.0);
+      expect(state.bpm).to.equal(240.0);
       expect(state.beat).to.be.above(4);
       done();
 
