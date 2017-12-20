@@ -10,15 +10,20 @@
  **/
 
 import chai from "chai"
-import { createStore } from "redux"
+import { createStore, combineReducers } from "redux"
 
 import abletonlinkRedux from "../"
-import AbletonLinkController from "./AbletonLinkController";
+const AbletonLinkController = abletonlinkRedux.AbletonLinkController;
+const mountPoint = abletonlinkRedux.DEFAULT_MOUNT_POINT;
 
 const expect = chai.expect;
 
 function configure_store (initialState) {
-  return createStore(abletonlinkRedux.reducer, initialState);
+  return createStore(combineReducers({
+    [mountPoint]: abletonlinkRedux.reducer
+  }), {
+    [mountPoint]: initialState
+  });
 }
 
 describe("reset statestore", function () {
@@ -29,7 +34,7 @@ describe("reset statestore", function () {
   });
 
   it("should init state", function (done) {
-    let state = store.getState();
+    let state = store.getState()[mountPoint];
     expect(state.beat).to.equal(0.0);
     done();
   });
@@ -39,10 +44,8 @@ describe("link state", function() {
   var defaultState = {
     bpm: 120.0
   };
-  var store;
-  var abletonLinkController;
-
-  var reset = function () {
+  var store, abletonLinkController, reset;
+  reset = function () {
     store = configure_store(defaultState);
     abletonLinkController = new AbletonLinkController(store);
   };
@@ -51,7 +54,7 @@ describe("link state", function() {
   it("bpm should update right away", function (done) {
     reset();
     setTimeout(() => {
-      let state = store.getState();
+      let state = store.getState()[mountPoint];
 
       expect(state.bpm).to.equal(120.0);
       done();
@@ -61,7 +64,7 @@ describe("link state", function() {
 
   it("beat should update after 1 second", function (done) {
     setTimeout(() => {
-      let state = store.getState();
+      let state = store.getState()[mountPoint];
       expect(state.beat).to.be.above(2.0);
       expect(state.phase).to.be.above(2.0);
       done();
@@ -70,7 +73,7 @@ describe("link state", function() {
 
   it("phase should loop around beat", function (done) {
     setTimeout(() => {
-      let state = store.getState();
+      let state = store.getState()[mountPoint];
 
       expect(state.beat).to.be.above(4.0);
       expect(state.phase).to.be.below(1.0);
@@ -85,7 +88,7 @@ describe("link state", function() {
 
     // now beats should advance twice as fast
     setTimeout(() => {
-      let state = store.getState();
+      let state = store.getState()[mountPoint];
 
       expect(state.bpm).to.equal(240.0);
       expect(state.beat).to.be.above(4);

@@ -11,6 +11,8 @@
 
 import * as actionTypes from "./actionTypes";
 
+export const DEFAULT_MOUNT_POINT = 'abletonlink';
+
 export function create_default_state () {
   return {
     beat: 0.0,
