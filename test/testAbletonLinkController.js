@@ -19,11 +19,17 @@ const mountPoint = abletonlinkRedux.DEFAULT_MOUNT_POINT;
 const expect = chai.expect;
 
 function configure_store (initialState) {
-  return createStore(combineReducers({
-    [mountPoint]: abletonlinkRedux.reducer
-  }), {
-    [mountPoint]: initialState
-  });
+  if (initialState) {
+    return createStore(combineReducers({
+      [mountPoint]: abletonlinkRedux.reducer
+    }), {
+      [mountPoint]: initialState
+    });
+  } else {
+    return createStore(combineReducers({
+      [mountPoint]: abletonlinkRedux.reducer
+    }));
+  }
 }
 
 describe("reset statestore", function () {
@@ -36,6 +42,7 @@ describe("reset statestore", function () {
   it("should init state", function (done) {
     let state = store.getState()[mountPoint];
     expect(state.beat).to.equal(0.0);
+    expect(state.bpm).to.equal(120.0);
     done();
   });
 });
@@ -60,6 +67,18 @@ describe("link state", function() {
       done();
 
     }, 100);
+  });
+
+  it("should be immutable", function (done) {
+    var oldState, newState, unsub;
+    oldState = store.getState()[mountPoint];
+    unsub = store.subscribe(() => {
+      newState = store.getState()[mountPoint];
+
+      expect(oldState).to.not.equal(newState);
+      unsub();
+      done();
+    });
   });
 
   it("beat should update after 1 second", function (done) {

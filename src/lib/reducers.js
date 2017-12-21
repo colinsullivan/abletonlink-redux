@@ -19,7 +19,7 @@ export function create_default_state () {
     phase: 0.0,
     quantum: 0.0,
     queued_bpm: false,
-    bpm: false
+    bpm: 120.0
   };
 }
 export default function (state = create_default_state(), action) {

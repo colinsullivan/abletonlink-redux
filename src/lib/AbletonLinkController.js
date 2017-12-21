@@ -38,7 +38,10 @@ class AbletonLinkController {
 
     this.mountPoint = mountPoint;
 
-    this.link = new abletonlink();
+    let state = this.store.getState()[this.mountPoint];
+    let bpm = state.bpm;
+
+    this.link = new abletonlink(bpm);
 
     var lastBpm = this.link.bpm;
     this.link.startUpdate(updateInterval, (beat, phase, bpm) => {
