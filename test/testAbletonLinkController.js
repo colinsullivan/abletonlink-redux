@@ -48,9 +48,9 @@ describe("reset statestore", function () {
 });
 
 describe("link state", function() {
-  var defaultState = {
+  var defaultState = Object.assign(abletonlinkRedux.create_default_state(), {
     bpm: 120.0
-  };
+  });
   var store, abletonLinkController, reset;
   reset = function () {
     store = configure_store(defaultState);

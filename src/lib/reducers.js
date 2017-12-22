@@ -17,7 +17,7 @@ export function create_default_state () {
   return {
     beat: 0.0,
     phase: 0.0,
-    quantum: 0.0,
+    quantum: 4.0,
     queued_bpm: false,
     bpm: 120.0
   };
